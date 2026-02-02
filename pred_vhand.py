@@ -88,6 +88,7 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
     else:
         raise ValueError(f"Unexpected joints dimension: {xyz_full.ndim}. Expected 3 or 4.")
     xyz = xyz @ flip_mat.T
+    xyz = reorder_joints(xyz)
 
     if verts_full.ndim == 4:
         verts = verts_full[track_idx, f_id]
@@ -99,6 +100,11 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
     # xyz = np.zeros((21, 3))  # 3D coordinates of the 21 joints
     # verts = np.zeros((778, 3)) # 3D coordinates of the shape vertices
     # return xyz, verts
+
+def reorder_joints(xyz):
+    new_order = [0, 5, 6, 7, 9, 10, 11, 17, 18, 19, 13, 14, 15, 1, 2, 3, 4, 8, 12, 16, 20]
+    return xyz[new_order, :]
+
 
 
 if __name__ == '__main__':
