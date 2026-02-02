@@ -72,7 +72,6 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
     data = np.load(pred_path)
     xyz_full = data['joints']
     verts_full = data['vertices']
-    ç
 
     f_id = int(file_id)
     flip_mat = np.array([
