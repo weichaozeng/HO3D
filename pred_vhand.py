@@ -46,6 +46,7 @@ def main(base_path, pred_dir,  pred_out_name, pred_phase, pred_func, version, se
         verts_pred_list.append(verts)
 
     pred_out_path = os.path.join('results', os.path.basename(pred_dir.rstrip('/')), pred_out_name)
+    os.makedirs(os.path.dirname(pred_out_path), exist_ok=True)
     # dump results
     dump(pred_out_path, xyz_pred_list, verts_pred_list)
 
