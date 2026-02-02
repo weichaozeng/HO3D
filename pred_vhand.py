@@ -72,25 +72,25 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
     data = np.load(pred_path)
     xyz_full = data['joints']
     verts_full = data['vertices']
+    vis_mask = data['vis_mask']
+
     f_id = int(file_id)
     flip_mat = np.array([
         [1,  0,  0],
         [0, -1,  0],
         [0,  0, -1]
     ])
+    valid_counts = (vis_mask != -1).sum(axis=1)
+    track_idx = np.argmax(valid_counts)
 
     if xyz_full.ndim == 4:
-        xyz = xyz_full[0, f_id]
-    elif xyz_full.ndim == 3:
-        xyz = xyz_full[f_id]
+        xyz = xyz_full[track_idx, f_id]
     else:
         raise ValueError(f"Unexpected joints dimension: {xyz_full.ndim}. Expected 3 or 4.")
     xyz = xyz @ flip_mat.T
 
     if verts_full.ndim == 4:
-        verts = verts_full[0, f_id]
-    elif verts_full.ndim == 3:
-        verts = verts_full[f_id]
+        verts = verts_full[track_idx, f_id]
     else:
         raise ValueError(f"Unexpected vertices dimension: {verts_full.ndim}. Expected 3 or 4.")
     verts = verts @ flip_mat.T
