@@ -72,7 +72,7 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
     data = np.load(pred_path)
     xyz_full = data['joints']
     verts_full = data['vertices']
-    vis_mask = data['vis_mask']
+    ç
 
     f_id = int(file_id)
     flip_mat = np.array([
@@ -80,8 +80,10 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
         [0, -1,  0],
         [0,  0, -1]
     ])
-    valid_counts = (vis_mask != -1).sum(axis=1)
-    track_idx = np.argmax(valid_counts)
+    
+    # since dataset.py argsorts the track with length, taking the first track as the longest one.
+    track_idx = 0
+
 
     if xyz_full.ndim == 4:
         xyz = xyz_full[track_idx, f_id]
