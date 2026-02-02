@@ -5,7 +5,7 @@ from tqdm import tqdm
 from utils.vis_utils import *
 
 
-def main(base_path, pred_dir,  pred_out_path, pred_phase, pred_func, version, set_name=None):
+def main(base_path, pred_dir,  pred_out_name, pred_phase, pred_func, version, set_name=None):
     """
         Main eval loop: Iterates over all evaluation samples and saves the corresponding predictions.
     """
@@ -45,6 +45,7 @@ def main(base_path, pred_dir,  pred_out_path, pred_phase, pred_func, version, se
         xyz_pred_list.append(xyz)
         verts_pred_list.append(verts)
 
+    pred_out_path = os.path.join('results', os.path.basename(pred_dir.rstrip('/')), pred_out_name)
     # dump results
     dump(pred_out_path, xyz_pred_list, verts_pred_list)
 
