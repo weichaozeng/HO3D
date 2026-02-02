@@ -71,6 +71,11 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
     xyz_full = data['joints']
     verts_full = data['vertices']
     f_id = int(file_id)
+    flip_mat = np.array([
+        [1,  0,  0],
+        [0, -1,  0],
+        [0,  0, -1]
+    ])
 
     if xyz_full.ndim == 4:
         xyz = xyz_full[0, f_id]
@@ -78,6 +83,7 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
         xyz = xyz_full[f_id]
     else:
         raise ValueError(f"Unexpected joints dimension: {xyz_full.ndim}. Expected 3 or 4.")
+    xyz = xyz @ flip_mat.T
 
     if verts_full.ndim == 4:
         verts = verts_full[0, f_id]
@@ -85,6 +91,7 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
         verts = verts_full[f_id]
     else:
         raise ValueError(f"Unexpected vertices dimension: {verts_full.ndim}. Expected 3 or 4.")
+    verts = verts @ flip_mat.T
 
     return xyz, verts
     # xyz = np.zeros((21, 3))  # 3D coordinates of the 21 joints
