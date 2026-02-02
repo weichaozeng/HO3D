@@ -175,18 +175,18 @@ def _search_pred_file(pred_path, pred_file_name):
         raise Exception('Giving up, because its not clear which file to evaluate.')
 
 
-def main(gt_path, pred_path, output_dir, version, pred_file_name=None, set_name=None):
+def main(gt_dir, output_dir, version, pred_file_name=None, set_name=None):
     if pred_file_name is None:
         pred_file_name = 'pred.json'
     if set_name is None:
         set_name = 'evaluation'
 
     # load eval annotations
-    xyz_list, verts_list = json_load(os.path.join(gt_path, '%s_xyz.json' % set_name)), json_load(os.path.join(gt_path, '%s_verts.json' % set_name))
+    xyz_list, verts_list = json_load(os.path.join(gt_dir, '%s_xyz.json' % set_name)), json_load(os.path.join(gt_dir, '%s_verts.json' % set_name))
 
 
     # load predicted values
-    pred_file = _search_pred_file(pred_path, pred_file_name)
+    pred_file = _search_pred_file(output_dir, pred_file_name)
     print('Loading predictions from %s' % pred_file)
     with open(pred_file, 'r') as fi:
         pred = json.load(fi)
@@ -362,9 +362,9 @@ def main(gt_path, pred_path, output_dir, version, pred_file_name=None, set_name=
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Show some samples from the dataset.')
-    parser.add_argument('input_dir', type=str,
-                        help='Path to where prediction the submited result and the ground truth is.')
-    parser.add_argument('output_dir', type=str,
+    parser.add_argument('--input_dir', type=str, default='/home/zvc/Data/HO3D_v2/',
+                        help='Path to where the ground truth is.')
+    parser.add_argument('--output_dir', type=str, default='/home/zvc/Project/HO3D/results/2026-02-02-00-13/',
                         help='Path to where the eval result should be.')
     parser.add_argument('--pred_file_name', type=str, default='pred.json',
                         help='Name of the eval file.')
@@ -374,7 +374,6 @@ if __name__ == '__main__':
     
     # call eval
     main(
-        os.path.join(args.input_dir),
         os.path.join(args.input_dir),
         args.output_dir,
         pred_file_name=args.pred_file_name,
