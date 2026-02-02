@@ -94,7 +94,7 @@ def pred_vhand(pred_dir, pred_phase, seq_name, file_id):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Show some samples from the dataset.')
-    parser.add_argument('base_path', type=str, default='/home/zvc/Data/HO3D_v2/',
+    parser.add_argument('--base_path', type=str, default='/home/zvc/Data/HO3D_v2/',
                         help='Path to where the HO3D dataset is located.')
     parser.add_argument('--pred_dir', type=str, default='/home/zvc/Project/VHand/test_outputs/HO3D_v2-eval/2026-02-02-00-13/',
                         help='Path to where the predictions are located.')
